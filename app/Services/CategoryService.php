@@ -40,11 +40,11 @@ class CategoryService extends StatusHandlerService
                 return [
                     'id'=> $category->id,
                     'slug'=> $category->slug,
-                    // 'image'=> $category->small_image_url, //change it later
-                    'image'=> $category->image,
+                    'image'=> $category->small_image_url,
+                    // 'image'=> $category->image,
                     'is_active'=> $category->is_active,
                     'category_name'=> $category->name ?? null,
-                    'parent_category_name'=> $category->name ?? 'NONE',
+                    'parent_category_name'=> $category->parentCategory->name ?? 'NONE',
                 ];
             });
 
@@ -64,7 +64,6 @@ class CategoryService extends StatusHandlerService
                     })
                     ->addColumn('category_image', function ($row){
                         return  '<img src="'. $row->image .'" height="50px" width="50px"/>';
-                        // return  '<img src="'. $row->small_image_url .'"/>';
                     })
                     ->addColumn('category_name', function ($row){
                         return $row->category_name;
@@ -75,7 +74,7 @@ class CategoryService extends StatusHandlerService
                     ->addColumn('is_active', function ($row){
                         if($row->is_active==1){
                             return '<span class="p-2 badge badge-success">Active</span>';
-                        }else{
+                        }else {
                             return '<span class="p-2 badge badge-danger">Inactive</span>';
                         }
                     })
@@ -106,20 +105,14 @@ class CategoryService extends StatusHandlerService
 
             $data = $this->requestHandleData($request);
 
-            $category = Category::create($data);
-
-            CategoryTranslation::create([
-                'category_id' => $category->id,
-                'locale' => session('currentLocale'),
-                'category_name' => htmlspecialchars_decode($request->category_name),
-            ]);
+            Category::create($data);
         });
     }
 
     public function findCategory(int $id)
     {
         try {
-            $category = Category::with('translations')->findOrFail($id);
+            $category = Category::findOrFail($id);
 
             return new CategoryResource($category);
 
@@ -140,16 +133,6 @@ class CategoryService extends StatusHandlerService
 
             Category::whereId($request->category_id)->update($requesteData);
 
-            CategoryTranslation::updateOrCreate(
-                [
-                    'category_id' => $request->category_id,
-                    'locale' => session('currentLocale'),
-                ],
-                [
-                    'category_name' => htmlspecialchars_decode($request->category_name),
-                ]
-            );
-
             DB::commit();
 
         } catch (Exception $e) {
@@ -163,20 +146,18 @@ class CategoryService extends StatusHandlerService
 
     public function requestHandleData($request, $category = null){
         $data              = [];
-        $data['name']      = $request->category_name;
-        $data['slug']      = $this->slug(htmlspecialchars_decode($request->category_name));
+        $data['name']      = $request->name;
+        $data['slug']      = $this->slug(htmlspecialchars_decode($request->name));
         $data['parent_id'] = ($request->parent_id==true) ? $request->parent_id : null;
         $data['icon']      = ($request->icon==true) ? $request->icon : null;
         $data['top']       = ($request->top==true) ? $request->top : 0;
         $data['is_active'] = ($request->is_active==true) ? $request->is_active : 0;
         if ($request->image) {
             if ($category) {
-                // $this->previousImageDelete($category->image);
                 $this->previousImageDelete(ImageDirectory::CATEGORY->value.'small/'.$category->image);
                 $this->previousImageDelete(ImageDirectory::CATEGORY->value.'medium/'.$category->image);
                 $this->previousImageDelete(ImageDirectory::CATEGORY->value.'large/'.$category->image);
             }
-            // $data['image'] = $this->imageStore($request->image, self::$directory, 300, 300, true, true, false);
             $data['image'] = $this->imageStore($request->image, ImageDirectory::CATEGORY, 300, 300, true, true, false);
         }
         return $data;
@@ -199,7 +180,8 @@ class CategoryService extends StatusHandlerService
     public function destroy($categoryId): void
     {
         $category = Category::findOrFail($categoryId);
-        $this->previousImageDelete($category->image);
+        $this->previousImageDelete(ImageDirectory::CATEGORY->value.'small/'.$category->image);
+        $this->previousImageDelete(ImageDirectory::CATEGORY->value.'medium/'.$category->image);
         $category->delete();
     }
 
@@ -211,7 +193,6 @@ class CategoryService extends StatusHandlerService
 
     public function existingImageConvertToNew()
     {
-        // $category =  Category::find(4);
         $categories =  Category::select('id','image')->get();
 
         foreach ($categories as $category) {

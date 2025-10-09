@@ -1,4 +1,4 @@
-@extends('lte.admin.layout.master')
+@extends('admin.layout.master')
 @section('admin-content')
 
   <!-- Content Wrapper. Contains page content -->

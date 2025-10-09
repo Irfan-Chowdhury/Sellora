@@ -1,4 +1,4 @@
-@extends('lte.admin.layout.master')
+@extends('admin.layout.master')
 
 @push('css')
 <link rel="preload" href="{{ asset('vendor/bootstrap/css/bootstrap-select.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -32,16 +32,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                                @can('category-store')
+                                {{-- @can('category-store') --}}
                                     <button type="button" class="btn btn-info parent_load" name="create_record" id="create_record">
                                         <i class="fa fa-plus"></i> @lang('file.Add Category')
                                     </button>
-                                @endcan
-                                @can('category-action')
+                                {{-- @endcan --}}
+                                {{-- @can('category-action') --}}
                                     <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_action">
                                         <i class="fa fa-minus-circle"></i> @lang('file.Bulk Action')
                                     </button>
-                                @endcan
+                                {{-- @endcan --}}
                                     <table id="dataListTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
@@ -66,9 +66,9 @@
             </div>
 
 
-            @include('lte.admin.pages.category.create')
-            @include('lte.admin.pages.category.edit_modal')
-            @include('lte.admin.includes.confirm_modal')
+            @include('admin.pages.category.create')
+            @include('admin.pages.category.edit_modal')
+            @include('admin.includes.confirm_modal')
 
 @endsection
 
@@ -187,8 +187,7 @@
                 success: function (data) {
                     console.log(data);
                     $('#category_id').val(data.category.id);
-                    $('#category_translation_id').val(data.category.category_translation_id);
-                    $('#category_name_edit').val(data.category.category_name);
+                    $('#category_name_edit').val(data.category.name);
                     $('#cateogry_icon_edit').val(data.category.icon);
                     $('#parent_id_edit').selectpicker('val', data.category.parent_id);
                     if (data.category.top === 1) {
@@ -208,7 +207,7 @@
     });
 
 </script>
-{{-- @include('lte.admin.includes.common_action',['all'=>true]) --}}
+{{-- @include('admin.includes.common_action',['all'=>true]) --}}
 
 <script type="text/javascript" src="{{asset('js/admin/common-js/store.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/update.js')}}"></script>

@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $categories =  $this->categoryService->getAllCategories();
 
-        return view('lte.admin.pages.category.index', compact('categories'));
+        return view('admin.pages.category.index', compact('categories'));
     }
 
     public function dataTable(){
@@ -36,16 +36,15 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         try {
-
-            self::isAuthorized('category-store');
+            // self::isAuthorized('category-store');
 
             $this->categoryService->storeCategory($request);
 
-            return $this->sendResponse( 'Category created successfully');
+            return $this->successResponse( 'Category created successfully', []);
 
         } catch (Exception $e) {
 
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -61,15 +60,13 @@ class CategoryController extends Controller
     {
         try {
 
-            self::isAuthorized('category-edit');
-
             $this->categoryService->updateCategory($request);
 
-            return $this->sendResponse( 'Data Updated Successfully');
+            return $this->successResponse( 'Data Updated Successfully', []);
 
         } catch (Exception $e) {
 
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -77,30 +74,27 @@ class CategoryController extends Controller
     {
         try {
 
-            self::isAuthorized('category-action');
-
             $this->categoryService->activeById((int)$request->id);
 
-            return $this->sendResponse( 'Data Inactive Successfully');
+            return $this->successResponse( 'Data active successfully', []);
 
         } catch (Exception $e) {
 
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
     public function inactive(Request $request)
     {
         try {
-            self::isAuthorized('category-action');
 
             $this->categoryService->inactiveById((int)$request->id);
 
-            return $this->sendResponse( 'Data Inactive Successfully');
+            return $this->successResponse( 'Data Inactive successfully', []);
 
         } catch (Exception $e) {
 
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -108,17 +102,13 @@ class CategoryController extends Controller
     {
         try {
 
-            self::isAuthorized('category-action');
-
             $this->categoryService->destroy((int) $request->id);
 
-            // return response()->json(['success' => 'Data Deleted Successfully']);
-            return $this->sendResponse( 'Data Deleted Successfully');
+            return $this->successResponse( 'Data Deleted successfully', []);
 
         } catch (Exception $e) {
 
-            // return response()->json(['errors' => [$e->getMessage()]], 422);
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -126,15 +116,14 @@ class CategoryController extends Controller
     public function bulkAction(Request $request)
     {
         try {
-            self::isAuthorized('category-action');
 
             $getMessage = $this->categoryService->bulkActionByTypeAndIds((string)$request->action_type, (array)$request->idsArray);
 
-            return $this->sendResponse( $getMessage);
+            return $this->successResponse( $getMessage, []);
 
         } catch (Exception $e) {
 
-            return $this->sendError($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -146,40 +135,3 @@ class CategoryController extends Controller
         }
     }
 }
-
-
-
-
-
-
-
-
-        //--------- Test  -----------
-        // $categories = Category::with('categoryTranslations')
-        //     ->get();
-        // $data = [];
-        // foreach ($categories as $key => $value) {
-        //     $data[$key]['slug']  = $value->slug;
-        //     $data[$key]['local'] = $this->translations($value->categoryTranslations)->local;
-        //     $data[$key]['category_name'] = $this->translations($value->categoryTranslations)->category_name;
-        // }
-        // return $data;
-        // return $this->translations($category->categoryTranslation);
-
-        //Trait
-        // namespace App\Trait;
-        // trait Residence{
-        // }
-
-        // //Class
-        // namespace App\Controller;
-        // use App\Trait\Residence;
-        // Class TraitClassForBlade{
-        //     use Residence;
-        // }
-
-        // //Blade
-        // @inject('Residence','App\Controller\TraitClassForBlade')
-        // @foreach($residence->country as $country)
-        // @endforeach
-        //--------- Test  -----------

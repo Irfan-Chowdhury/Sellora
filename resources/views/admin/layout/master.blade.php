@@ -49,7 +49,7 @@
                 height="60" width="60">
         </div>
 
-        @include('lte.admin.layout.partials.navbar')
+        @include('admin.layout.partials.navbar')
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
 
-                @include('lte.admin.layout.partials.sidebar')
+                @include('admin.layout.partials.sidebar')
 
             </div>
             <!-- /.sidebar -->
@@ -94,7 +94,7 @@
 
         @yield('admin-content')
 
-        @include('lte.admin.layout.partials.footer')
+        @include('admin.layout.partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
