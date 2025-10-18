@@ -27,14 +27,16 @@ class Category extends Model
     {
         $directory = 'uploads/images/categories/small';
 
-        return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : url("images/empty.jpg");
+        // return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : url("images/empty.jpg");
+        return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : 'https://placehold.co/600x400?text=Category';
     }
 
     public function getMediumImageUrlAttribute()
     {
         $directory = 'uploads/images/categories/medium';
 
-        return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : url("images/empty.jpg");
+        // return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : url("images/empty.jpg");
+        return isset($this->image) && Storage::disk('public')->exists($directory.'/'.$this->image) ? url(Storage::url("{$directory}/{$this->image}")) : 'https://placehold.co/600x400?text=Category';
     }
 
 
