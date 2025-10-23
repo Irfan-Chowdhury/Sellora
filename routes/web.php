@@ -11,6 +11,23 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.pages.dashboard.index');
     });
 
+    Route::get('/dashboard-new', function () {
+        return view('admin_new.pages.dashboard.index');
+    });
+
+
+    //-Products--
+    Route::get('products', function () {
+        return view('admin_new.products.index');
+    })->name('admin.products');
+    //--Customers--
+    Route::get('customers', function () {
+        return view('admin_new.customers.index');
+    })->name('admin.customers');
+    //--POS--
+    Route::get('pos', function () {
+        return view('admin_new.sales.index');
+    })->name('admin.pos');
     //--Category--
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/',[CategoryController::class,'index'])->name('admin.category');
