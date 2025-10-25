@@ -29,7 +29,7 @@ class RoleController extends Controller {
             })
             ->addColumn('action', function ($row){
                 $actionBtn = "";
-                $actionBtn .= '<a class="show btn btn-primary btn-sm mr-1" href="">' . trans('file.Permission') . '</a>';
+                $actionBtn .= '<a class="show btn btn-primary btn-sm mr-1" href="'.route('admin.roles.permission',$row->id).'">' . trans('file.Permission') . '</a>';
 
                 $actionBtn .= '<button type="button" title="Edit" class="edit btn btn-info btn-sm" title="Edit" data-id="'.$row->id.'"><i class="dripicons-pencil"></i></button>
                                 &nbsp; ';

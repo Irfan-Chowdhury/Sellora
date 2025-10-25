@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('roles/inactive', [RoleController::class, 'inactive'])->name('roles.inactive');
     Route::get('roles/destroy',[RoleController::class,'destroy'])->name('roles.destroy');
     Route::get('roles/bulk_action',[RoleController::class,'bulkAction'])->name('roles.bulk_action');
+
+
+    Route::get('roles/permission/{id}', [PermissionController::class, 'rolePermission'])->name('roles.permission');
+    Route::get('roles/permission_details/{id}', [PermissionController::class, 'permissionDetails'])->name('permissionDetails');
+    Route::post('roles/permission', [PermissionController::class, 'set_permission'])->name('set_permission');
 });

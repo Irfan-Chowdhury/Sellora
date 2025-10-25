@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
 
 @push('css')
-
 @endpush
 
 
