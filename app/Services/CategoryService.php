@@ -188,7 +188,6 @@ class CategoryService extends StatusHandlerService
     public function bulkActionByTypeAndIds(string $type, array $ids)
     {
         return $this->bulkActionData($type, Category::whereIn('id',$ids));
-
     }
 
     public function existingImageConvertToNew()

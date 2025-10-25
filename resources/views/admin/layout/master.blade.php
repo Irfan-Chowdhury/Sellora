@@ -144,6 +144,17 @@
 
     @stack('scripts')
 
+    <script type="text/javascript" src="{{asset('js/admin/common-js/store.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/update.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/active.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/inactive.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/delete.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/bulk_action.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/admin/common-js/alertMessages.js')}}"></script>
+
+
+
+
 </body>
 
 </html>

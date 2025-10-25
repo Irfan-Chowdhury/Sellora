@@ -6,6 +6,9 @@
             e.preventDefault();
             let modelId = $('#modelId').val();
             $('#updateButton').text('Updating...');
+
+            updateURL = updateURL.replace(':id', modelId);
+
             $.post({
                 // url: updateURL + modelId,
                 url: updateURL,

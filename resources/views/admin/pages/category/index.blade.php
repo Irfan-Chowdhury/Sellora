@@ -8,6 +8,7 @@
 @endpush
 
 @section('admin-content')
+
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -62,7 +63,7 @@
                         </div>
                     </div>
             </div>
-            </section>
+        </section>
             </div>
 
 
@@ -209,13 +210,13 @@
 </script>
 {{-- @include('admin.includes.common_action',['all'=>true]) --}}
 
-<script type="text/javascript" src="{{asset('js/admin/common-js/store.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('js/admin/common-js/store.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/update.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/active.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/inactive.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/delete.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/bulk_action.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/admin/common-js/alertMessages.js')}}"></script>
-
+ --}}
 
 @endpush
