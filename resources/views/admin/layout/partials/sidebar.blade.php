@@ -43,7 +43,7 @@
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a href="{{ route('admin.category') }}" class="nav-link">
+                          <a href="{{ route('admin.roles.assign') }}" class="nav-link">
                               <i class="far fa-circle nav-icon"></i>
                               <p>Assign Role</p>
                           </a>

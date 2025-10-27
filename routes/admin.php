@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware'=>'auth', 'as' => 'admin.'], function () {
 
     Route::get('/dashboard', function () {
         return view('admin.pages.dashboard.index');
@@ -31,6 +31,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('roles/inactive', [RoleController::class, 'inactive'])->name('roles.inactive');
     Route::get('roles/destroy',[RoleController::class,'destroy'])->name('roles.destroy');
     Route::get('roles/bulk_action',[RoleController::class,'bulkAction'])->name('roles.bulk_action');
+    Route::get('roles/assign',[RoleController::class,'roleAssign'])->name('roles.assign');
+    Route::post('roles/assign/{user}', [RoleController::class, 'updateAssignRole'])->name('assign_role');
+    Route::post('roles/mass_assign', [RoleController::class, 'massUpdateAssignRole'])->name('mass_assign_role');
 
 
     Route::get('roles/permission/{id}', [PermissionController::class, 'rolePermission'])->name('roles.permission');
