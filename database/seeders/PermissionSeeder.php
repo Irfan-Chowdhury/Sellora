@@ -16,50 +16,72 @@ class PermissionSeeder extends Seeder
 		$permissions = array(
 
 			array(
-				'id' => 1,
+				'guard_name' => 'web',
+				'name' => 'category'
+			),
+			array(
+				'guard_name' => 'web',
+				'name' => 'view-category'
+			),
+			array(
+				'guard_name' => 'web',
+				'name' => 'store-category'
+			),
+			array(
+				'guard_name' => 'web',
+				'name' => 'edit-category'
+			),
+			array(
+				'guard_name' => 'web',
+				'name' => 'delete-category'
+			),
+			array(
+				'guard_name' => 'web',
+				'name' => 'category-active-inactive'
+			),
+			array(
 				'guard_name' => 'web',
 				'name' => 'customize-setting'
 			),
 			array(
-				'id' => 2,
 				'guard_name' => 'web',
 				'name' => 'role-access'
 			),
 
 			array(
-				'id' => 3,
 				'guard_name' => 'web',
 				'name' => 'role'
 			),
 			array(
-				'id' => 4,
 				'guard_name' => 'web',
 				'name' => 'view-role'
 			),
 			array(
-				'id' => 5,
 				'guard_name' => 'web',
 				'name' => 'store-role'
 			),
 			array(
-				'id' => 6,
 				'guard_name' => 'web',
 				'name' => 'edit-role'
 			),
 			array(
-				'id' => 7,
 				'guard_name' => 'web',
 				'name' => 'delete-role'
 			),
-
 			array(
-				'id' => 8,
+				'guard_name' => 'web',
+				'name' => 'role-active-inactive'
+			),
+			array(
 				'guard_name' => 'web',
 				'name' => 'assign-role'
             ),
 
 			array(
-				'id' => 9,
+				'guard_name' => 'web',
+				'name' => 'view-permission'
+            ),
+			array(
 				'guard_name' => 'web',
 				'name' => 'set-permission'
 			)

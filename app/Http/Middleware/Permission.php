@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class Permission
 {
@@ -13,7 +11,7 @@ class Permission
         $userAssignedPermissions = auth()->user()->getAllPermissions()->pluck('name')->toArray();
 
         if(!in_array($permission, $userAssignedPermissions))
-            abort(403, '403 | Unauthorized');
+            abort(403);
 
         return $next($request);
     }

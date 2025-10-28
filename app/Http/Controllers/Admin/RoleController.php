@@ -11,6 +11,7 @@ use App\Services\RoleService;
 use Exception;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Str;
 use function e;
@@ -53,6 +54,11 @@ class RoleController extends Controller {
 
 	public function index()
 	{
+        // if(!auth()->user()->can('view-role')) {
+        //     abort(403);
+        // }
+        // return Permission::get()->pluck('id');
+
         $roles =  $this->roleService->getAllRoles();
 
         if (request()->ajax()) {
@@ -65,6 +71,10 @@ class RoleController extends Controller {
 
 	public function store(RoleStoreRequest $request)
 	{
+        if(!auth()->user()->can('store-role')) {
+            abort(403);
+        }
+
         try {
 
             $this->roleService->save($request);
