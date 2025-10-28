@@ -19,7 +19,6 @@ class PermissionController extends Controller
 	{
 		$role = Role::findById($id);
 		$role_permissions = $role->permissions()->select('name')->get();
-        //return response($role_permissions);
 
 		$permissions = array();
 		foreach ($role_permissions as $permission)

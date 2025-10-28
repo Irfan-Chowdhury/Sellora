@@ -82,6 +82,34 @@
                         check: onCheck,
                         dataSource: [
                             {
+                                id: 'category',
+                                text: "{{__('Category Management')}}",
+                                expanded: true,
+                                checked: ($.inArray('category', result) >= 0) ? true : false,
+                                items: [
+                                    {
+                                        id: 'view-category',
+                                        text: '{{__('View Category')}}',
+                                        checked: ($.inArray('view-category', result) >= 0) ? true : false
+                                    },
+                                    {
+                                        id: 'store-category',
+                                        text: '{{__('Store Category')}}',
+                                        checked: ($.inArray('store-category', result) >= 0) ? true : false
+                                    },
+                                    {
+                                        id: 'edit-category',
+                                        text: '{{__('Edit Category')}}',
+                                        checked: ($.inArray('edit-category', result) >= 0) ? true : false
+                                    },
+                                    {
+                                        id: 'delete-category',
+                                        text: '{{__('Delete Category')}}',
+                                        checked: ($.inArray('delete-category', result) >= 0) ? true : false
+                                    },
+                                ]
+                            },
+                            {
                                 id: 'customize-setting',
                                 text: "{{__('Customize Setting')}}",
                                 expanded: true,
