@@ -1,0 +1,34 @@
+{
+	"folders": [
+		{
+			"path": "../app"
+		},
+		{
+			"path": "../bootstrap"
+		},
+		{
+			"path": "../config"
+		},
+		{
+			"path": "../database"
+		},
+		{
+			"path": "../public"
+		},
+		{
+			"path": "../resources"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../../peoplepro/peoplepro-hrm-crm/app"
+		},
+		{
+			"path": "../../peoplepro/peoplepro-hrm-crm/resources"
+		},
+		{
+			"path": "../../peoplepro/peoplepro-hrm-crm/routes"
+		}
+	]
+}

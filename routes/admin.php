@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -40,4 +41,6 @@ Route::group(['prefix' => 'admin', 'middleware'=>'auth', 'as' => 'admin.'], func
         Route::get('permission_details/{id}', [PermissionController::class, 'permissionDetails'])->name('permissionDetails');
         Route::post('permission', [PermissionController::class, 'set_permission'])->name('set_permission')->middleware('permission:set-permission');
     });
+
+    Route::resourceWithStatus('brands', BrandController::class);
 });
