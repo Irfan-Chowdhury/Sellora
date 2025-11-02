@@ -36,23 +36,6 @@ class RoleService extends StatusHandlerService
             ]);
         });
 
-        // DB::beginTransaction();
-        // try {
-
-        //     $category = $this->findCategory((int)$request->category_id);
-
-        //     $requesteData = $this->requestHandleData($request, $category);
-
-        //     Category::whereId($request->category_id)->update($requesteData);
-
-        //     DB::commit();
-
-        // } catch (Exception $e) {
-
-        //     DB::rollBack();
-
-        //     throw new Exception($e->getMessage());
-        // }
     }
 
     public function activeById(int $id): void

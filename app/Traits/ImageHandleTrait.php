@@ -10,7 +10,7 @@ use Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-trait imageHandleTrait {
+trait ImageHandleTrait {
 
 
     public function imageStore(

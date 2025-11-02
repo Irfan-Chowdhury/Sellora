@@ -11,7 +11,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Traits\WordCheckTrait;
-use App\Traits\imageHandleTrait;
+use App\Traits\ImageHandleTrait;
 use App\Traits\SlugTrait;
 use Exception;
 use Illuminate\Support\Facades\File;
@@ -24,7 +24,7 @@ use Image;
 
 class CategoryService extends StatusHandlerService
 {
-    use SlugTrait, imageHandleTrait, WordCheckTrait;
+    use SlugTrait, ImageHandleTrait, WordCheckTrait;
 
     private static $directory = 'uploads/images/categories/';
 

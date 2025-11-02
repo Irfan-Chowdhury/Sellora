@@ -54,11 +54,6 @@ class RoleController extends Controller {
 
 	public function index()
 	{
-        // if(!auth()->user()->can('view-role')) {
-        //     abort(403);
-        // }
-        // return Permission::get()->pluck('id');
-
         $roles =  $this->roleService->getAllRoles();
 
         if (request()->ajax()) {

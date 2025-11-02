@@ -42,5 +42,6 @@ Route::group(['prefix' => 'admin', 'middleware'=>'auth', 'as' => 'admin.'], func
         Route::post('permission', [PermissionController::class, 'set_permission'])->name('set_permission')->middleware('permission:set-permission');
     });
 
+    Route::get('/brands/bulk_action',[BrandController::class,'bulkAction'])->name('brands.bulk_action');
     Route::resourceWithStatus('brands', BrandController::class);
 });

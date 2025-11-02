@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-// use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+// use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 
 class RouteServiceProvider extends ServiceProvider
@@ -17,9 +18,7 @@ class RouteServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap services.
-     */
+   
     public function boot(): void
     {
         parent::boot();
@@ -27,15 +26,19 @@ class RouteServiceProvider extends ServiceProvider
         // ✅ Define custom macro
         Route::macro('resourceWithStatus', function ($name, $controller) {
 
-            // normal resource routes
+            // Regular resource
             Route::resource($name, $controller);
 
-            // extra methods
-            Route::patch("$name/{id}/active", [$controller, 'makeActive'])
+            // Extract singular form automatically
+            $param = Str::singular($name);
+
+            // Extra routes
+            Route::patch("$name/{{$param}}/active", [$controller, 'makeActive'])
                 ->name("$name.active");
 
-            Route::patch("$name/{id}/inactive", [$controller, 'makeInactive'])
+            Route::patch("$name/{{$param}}/inactive", [$controller, 'makeInactive'])
                 ->name("$name.inactive");
         });
     }
+
 }

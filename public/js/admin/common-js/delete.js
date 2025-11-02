@@ -7,6 +7,9 @@
         let id = $(this).data("id");
         // let modelId = $(this).data("id");
 
+        deleteURL = updateURL.replace(':id', id);
+
+
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -17,10 +20,10 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.get({
+                $.ajax({
                     // url: deleteURL + modelId,
                     url: deleteURL,
-                    data: {id:id},
+                    type: 'DELETE',
                     error: function (response) {
                         console.log(response);
                         let htmlContent = prepareMessage(response);

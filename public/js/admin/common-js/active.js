@@ -4,8 +4,11 @@
     $(document).on("click",".active",function(e){
         e.preventDefault();
         var id = $(this).data("id");
-        $.get({
+        activeURL = activeURL.replace(':id', id);
+
+        $.ajax({
             url: activeURL,
+            type: 'PATCH',
             data: {id:id},
             error: function(response){
                 console.log(response)
