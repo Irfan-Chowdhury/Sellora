@@ -1,56 +1,43 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
-use App\Models\Tag;
+use App\Models\Tax;
 use App\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
 
-class TagService
+class TaxService
 {
     use SlugTrait;
 
     public function getAll()
     {
-        $tags = [];
-        // $tags = Tag::orderBy('is_active','DESC')
-        //     ->orderBy('id', 'DESC')
-        //     ->get()
-        //     ->map(function($tag)  {
-        //         return [
-        //             'id'=> $tag->id,
-        //             'slug'=> $tag->slug,
-        //             'name'=> $tag->name,
-        //             'is_active'=> $tag->is_active,
-        //         ];
-        //     });
-
-        Tag::orderBy('is_active', 'DESC')
-        ->orderBy('id', 'DESC')
-        ->chunk(500, function ($rows) use (&$tags) {
-            foreach ($rows as $tag) {
-                $tags[] = [
-                    'id'        => $tag->id,
-                    'slug'      => $tag->slug,
-                    'name'      => $tag->name,
-                    'is_active' => $tag->is_active,
+        $taxes = Tax::orderBy('is_active','DESC')
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->map(function($row)  {
+                return [
+                    'id'=> $row->id,
+                    'name'=> $row->name,
+                    'rate'=> $row->rate,
+                    'is_active'=> $row->is_active,
                 ];
-            }
-        });
+            });
 
-        return json_decode(json_encode($tags), FALSE);
+        return json_decode(json_encode($taxes), FALSE);
     }
 
-    public function dataTable(array $tags)
+    public function dataTable(array $taxes)
     {
-        return datatables()->of($tags)
+        return datatables()->of($taxes)
             ->setRowId(function ($row) {
                 return $row->id;
             })
             ->addColumn('name', function ($row){
                 return ucfirst ($row->name);
+            })
+            ->addColumn('rate', function ($row){
+                return $row->rate;
             })
             ->addColumn('is_active', function ($row){
                 if($row->is_active==1){
@@ -85,34 +72,34 @@ class TagService
 
             $data = $this->requestHandleData($request);
 
-            Tag::create($data);
+            Tax::create($data);
         });
     }
 
-    public function findData(Tag $tag)
+    public function findData(Tax $tax)
     {
         return [
-            'id' => $tag->id,
-            'slug' => $tag->slug,
-            'name' => $tag->name,
-            'isActive' => $tag->is_active
+            'id' => $tax->id,
+            'name' => $tax->name,
+            'rate' => $tax->rate,
+            'isActive' => $tax->is_active
         ];
     }
 
-    public function updateData($request, Tag $tag)
+    public function updateData($request, Tax $tax)
     {
-        $requestData = $this->requestHandleData($request, $tag);
+        $requestData = $this->requestHandleData($request);
 
-        $tag->update($requestData);
+        $tax->update($requestData);
     }
 
 
 
-    public function requestHandleData($request, $tag = null)
+    public function requestHandleData($request)
     {
         return [
             'name' => $request->name,
-            'slug' => $this->slug(htmlspecialchars_decode($request->name)),
+            'rate' => $request->rate,
             'is_active' => ($request->is_active==true) ? $request->is_active : 0
         ];
     }
@@ -136,7 +123,7 @@ class TagService
 
     public function bulkActionByTypeAndIds(string $actionType, array $ids): string|null
     {
-        $data = Tag::whereIn('id',$ids);
+        $data = Tax::whereIn('id',$ids);
 
         if ($actionType == 'active') {
 
@@ -159,3 +146,4 @@ class TagService
         return null;
     }
 }
+

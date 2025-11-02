@@ -37,6 +37,12 @@
                               <p>Tags</p>
                           </a>
                       </li>
+                      <li class="nav-item">
+                          <a href="{{ route('admin.taxes.index') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Tax</p>
+                          </a>
+                      </li>
                   </ul>
               </li>
               <li class="nav-item">
