@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -44,4 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'auth', 'as' => 'admin.'], func
 
     Route::get('/brands/bulk_action',[BrandController::class,'bulkAction'])->name('brands.bulk_action');
     Route::resourceWithStatus('brands', BrandController::class);
+
+    Route::get('/tags/bulk_action',[TagController::class,'bulkAction'])->name('tags.bulk_action');
+    Route::resourceWithStatus('tags', TagController::class);
 });
