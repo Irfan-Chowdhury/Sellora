@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             UserSeeder::class,
             TagSeeder::class,
+            TaxSeeder::class,
         ]);
     }
 }
