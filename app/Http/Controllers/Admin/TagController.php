@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Brand\BrandStoreRequest;
-use App\Http\Requests\Brand\BrandUpdateRequest;
-use App\Models\Brand;
-use App\Services\BrandService;
-use Exception;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Tag\TagStoreRequest;
+use App\Http\Requests\Tag\TagUpdateRequest;
+use App\Services\TagService;
+use Exception;
 
-class BrandController extends Controller
+class TagController extends Controller
 {
-    private $brandService;
-    public function __construct(BrandService $brandService){
-        $this->brandService = $brandService;
+    private $tagService;
+    public function __construct(TagService $tagService){
+        $this->tagService = $tagService;
     }
 
     public function index()
     {
-        $brands =  $this->brandService->getAll();
+        $tags =  $this->tagService->getAll();
 
         if (request()->ajax()) {
-            return $this->brandService->dataTable($brands);
+            return $this->tagService->dataTable($tags);
         }
 
-        return view('admin.pages.brand.index', compact('brands'));
+        return view('admin.pages.tags.index');
     }
 
 
@@ -37,13 +37,13 @@ class BrandController extends Controller
     }
 
 
-    public function store(BrandStoreRequest $request)
+    public function store(TagStoreRequest $request)
     {
         try {
 
-            $this->brandService->save($request);
+            $this->tagService->save($request);
 
-            return $this->successResponse( 'Brand created successfully', []);
+            return $this->successResponse( 'Data created successfully', []);
 
         } catch (Exception $e) {
 
@@ -52,16 +52,16 @@ class BrandController extends Controller
     }
 
 
-    public function show(Brand $brand)
+    public function show(Tag $tag)
     {
         //
     }
 
-    public function edit(Brand $brand)
+    public function edit(Tag $tag)
     {
         try {
 
-            $brand = $this->brandService->findData($brand);
+            $brand = $this->tagService->findData($tag);
 
             return $this->successResponse( null, $brand);
 
@@ -72,11 +72,11 @@ class BrandController extends Controller
     }
 
 
-    public function update(BrandUpdateRequest $request, Brand $brand)
+    public function update(TagUpdateRequest $request, Tag $tag)
     {
         try {
 
-            $this->brandService->updateData($request, $brand);
+            $this->tagService->updateData($request, $tag);
 
             return $this->successResponse( 'Data Updated Successfully', []);
 
@@ -86,11 +86,11 @@ class BrandController extends Controller
         }
     }
 
-    public function destroy(Brand $brand)
+    public function destroy(Tag $tag)
     {
         try {
 
-            $this->brandService->destroy($brand);
+            $this->tagService->destroy($tag);
 
             return $this->successResponse( 'Data Deleted successfully', []);
 
@@ -100,11 +100,11 @@ class BrandController extends Controller
         }
     }
 
-    public function makeActive(Brand $brand)
+    public function makeActive(Tag $tag)
     {
         try {
 
-            $this->brandService->active($brand);
+            $this->tagService->active($tag);
 
             return $this->successResponse( 'Data active successfully', []);
 
@@ -114,11 +114,11 @@ class BrandController extends Controller
         }
     }
 
-    public function makeInactive(Brand $brand)
+    public function makeInactive(Tag $tag)
     {
         try {
 
-            $this->brandService->inactive($brand);
+            $this->tagService->inactive($tag);
 
             return $this->successResponse( 'Data inactive successfully', []);
 
@@ -132,7 +132,7 @@ class BrandController extends Controller
     {
         try {
 
-            $getMessage = $this->brandService->bulkActionByTypeAndIds((string)$request->action_type, (array)$request->idsArray);
+            $getMessage = $this->tagService->bulkActionByTypeAndIds((string)$request->action_type, (array)$request->idsArray);
 
             return $this->successResponse( $getMessage, []);
 

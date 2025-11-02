@@ -12,7 +12,7 @@ use App\Services\StatusHandlerService;
 
 class BrandService extends StatusHandlerService
 {
-    use SlugTrait, ImageHandleTrait, WordCheckTrait;
+    use SlugTrait, ImageHandleTrait;
 
     private static $directory = 'uploads/images/brands/';
 
@@ -21,7 +21,7 @@ class BrandService extends StatusHandlerService
 
     public function getAll()
     {
-        $categories = Brand::orderBy('is_active','DESC')
+        $brands = Brand::orderBy('is_active','DESC')
             ->orderBy('id', 'DESC')
             ->get()
             ->map(function($brand)  {
@@ -35,10 +35,10 @@ class BrandService extends StatusHandlerService
             });
 
 
-        return json_decode(json_encode($categories), FALSE);
+        return json_decode(json_encode($brands), FALSE);
     }
 
-    public function dataTable($brands)
+    public function dataTable(object $brands)
     {
         return datatables()->of($brands)
             ->setRowId(function ($brand) {
