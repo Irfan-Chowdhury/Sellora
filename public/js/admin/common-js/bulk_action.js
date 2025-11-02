@@ -45,7 +45,7 @@
                     }
                 });
             });
-            
+
             $("#inactive").on("click",function(){
                 action_type = "inactive";
                 console.log(idsArray);

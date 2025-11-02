@@ -4,8 +4,11 @@
     $(document).on("click",".inactive",function(e){
         e.preventDefault();
         var id = $(this).data("id");
+        inactiveURL = inactiveURL.replace(':id', id);
+
         $.get({
             url: inactiveURL,
+            type: 'PATCH',
             data: {id:id},
             error: function(response){
                 console.log(response)

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class CategorySeeder extends Seeder
 {
+    // php artisan db:seed --class=CategorySeeder
     public function run(): void
     {
         DB::table('categories')->truncate();

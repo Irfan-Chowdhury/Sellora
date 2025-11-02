@@ -5,64 +5,142 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Brand\BrandStoreRequest;
+use App\Http\Requests\Brand\BrandUpdateRequest;
 use App\Models\Brand;
+use App\Services\BrandService;
+use Exception;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    private $brandService;
+    public function __construct(BrandService $brandService){
+        $this->brandService = $brandService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+
+    public function index()
+    {
+        $brands =  $this->brandService->getAll();
+
+        if (request()->ajax()) {
+            return $this->brandService->dataTable($brands);
+        }
+
+        return view('admin.pages.brand.index', compact('brands'));
+    }
+
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(BrandStoreRequest $request)
     {
-        //
+        try {
+
+            $this->brandService->save($request);
+
+            return $this->successResponse( 'Brand created successfully', []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Brand $brand)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Brand $brand)
     {
-        //
+        try {
+
+            $brand = $this->brandService->findData($brand);
+
+            return $this->successResponse( null, $brand);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Brand $brand)
+
+    public function update(BrandUpdateRequest $request, Brand $brand)
     {
-        //
+        try {
+
+            $this->brandService->updateData($request, $brand);
+
+            return $this->successResponse( 'Data Updated Successfully', []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Brand $brand)
     {
-        //
+        try {
+
+            $this->brandService->destroy($brand);
+
+            return $this->successResponse( 'Data Deleted successfully', []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function makeActive(Brand $brand)
+    {
+        try {
+
+            $this->brandService->active($brand);
+
+            return $this->successResponse( 'Data active successfully', []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function makeInactive(Brand $brand)
+    {
+        try {
+
+            $this->brandService->inactive($brand);
+
+            return $this->successResponse( 'Data inactive successfully', []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function bulkAction(Request $request)
+    {
+        try {
+
+            $getMessage = $this->brandService->bulkActionByTypeAndIds((string)$request->action_type, (array)$request->idsArray);
+
+            return $this->successResponse( $getMessage, []);
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

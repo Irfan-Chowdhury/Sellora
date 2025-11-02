@@ -50,7 +50,7 @@ abstract class Controller
 
 
 
-    public function successResponse(string $message, object|array $result, int $code = 200)
+    public function successResponse(string|null $message, object|array $result, int $code = 200)
     {
         $response = [
             'statusCode' => $code,
