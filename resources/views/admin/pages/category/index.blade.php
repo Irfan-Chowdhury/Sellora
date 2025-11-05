@@ -77,36 +77,22 @@
 
 @push('scripts')
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('admin-lte') }}/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/jszip/jszip.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="{{ asset('admin-lte') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    @include('admin.includes.datatable_js')
 
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
-    <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script> --}}
-
-
-    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
 
 
     <!-- Page specific script -->
     <script>
-        let indexURL = "{{ route('admin.category.datatable') }}";
-        let storeURL = "{{ route('admin.category.store') }}";
-        let editURL = "{{ route('admin.category.edit') }}";
-        let updateURL = "{{ route('admin.category.update') }}";
-        let activeURL = "{{ route('admin.category.active') }}";
-        let inactiveURL = "{{ route('admin.category.inactive') }}";
-        let deleteURL = "{{ route('admin.category.delete') }}";
-        let bulkActionURL = "{{ route('admin.category.bulk_action') }}";
+        let indexURL = "{{ route('admin.categories.datatable') }}";
+        let storeURL = "{{ route('admin.categories.store') }}";
+
+        const editURL = "{{ route('admin.categories.edit', ':id') }}";
+
+        let updateURL = "{{ route('admin.categories.update', ':id') }}";
+        let deleteURL = "{{ route('admin.categories.destroy', ':id') }}";
+        let activeURL = "{{ route('admin.categories.active', ':id') }}";
+        let inactiveURL = "{{ route('admin.categories.inactive', ':id') }}";
+        let bulkActionURL = "{{ route('admin.categories.bulk_action') }}";
 
         $(function() {
 
@@ -181,44 +167,63 @@
             });
 
             $(document).on('click', '.edit', function() {
-                var id = $(this).data("id");
+                let id = $(this).data('id');
+                let targetURL = editURL.replace(':id', id);
+
                 $('#alert_message').html('');
                 $.ajax({
-                    url: editURL,
+                    url: targetURL,
                     type: "GET",
                     data: {
                         category_id: id
                     },
                     success: function(data) {
                         console.log(data);
-                        $('#category_id').val(data.category.id);
-                        $('#category_name_edit').val(data.category.name);
-                        $('#cateogry_icon_edit').val(data.category.icon);
-                        $('#parent_id_edit').selectpicker('val', data.category.parent_id);
+
+                        $('#updateForm [name="category_id"]').val(data.category.id);
+                        $('#updateForm [name="name"]').val(data.category.name);
+                        $('#updateForm [name="icon"]').val(data.category.icon);
+                        $('#updateForm [name="parent_id"]').selectpicker('val', data.category.parent_id);
                         if (data.category.top === 1) {
-                            $('#top_edit').prop('checked', true);
+                            $('#updateForm [name="top"]').prop('checked', true);
                         } else {
-                            $('#top_edit').prop('checked', false);
+                            $('#updateForm [name="top"]').prop('checked', false);
                         }
+
                         if (data.category.is_active === 1) {
-                            $('#isActive_edit').prop('checked', true);
+                            $('#updateForm [name="is_active"]').prop('checked', true);
                         } else {
-                            $('#isActive_edit').prop('checked', false);
+                            $('#updateForm [name="is_active"]').prop('checked', false);
+                        }
+
+                        if(data.category.image){
+                            $('#previewImageEdit')
+                                .attr('src', data.category.image)  // adjust path
+                                .show();
+                        } else {
+                            $('#previewImageEdit').hide();
                         }
                         $('#editModal').modal('show');
                     }
                 })
             });
+
+            $(document).ready(function(){
+                $("#imageInputCreate").change(function(e){
+                    let reader = new FileReader();
+                    reader.onload = function(e){
+                        $("#previewImage").attr("src", e.target.result).show();
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $("#imageInputEdit").change(function(e){
+                    let reader = new FileReader();
+                    reader.onload = function(e){
+                        $("#previewImageEdit").attr("src", e.target.result).show();
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                });
+            });
         });
     </script>
-    {{-- @include('admin.includes.common_action',['all'=>true]) --}}
-
-    {{-- <script type="text/javascript" src="{{asset('js/admin/common-js/store.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/update.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/active.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/inactive.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/delete.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/bulk_action.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/admin/common-js/alertMessages.js')}}"></script>
- --}}
 @endpush

@@ -15,18 +15,6 @@ class TagService
     public function getAll()
     {
         $tags = [];
-        // $tags = Tag::orderBy('is_active','DESC')
-        //     ->orderBy('id', 'DESC')
-        //     ->get()
-        //     ->map(function($tag)  {
-        //         return [
-        //             'id'=> $tag->id,
-        //             'slug'=> $tag->slug,
-        //             'name'=> $tag->name,
-        //             'is_active'=> $tag->is_active,
-        //         ];
-        //     });
-
         Tag::orderBy('is_active', 'DESC')
         ->orderBy('id', 'DESC')
         ->chunk(500, function ($rows) use (&$tags) {

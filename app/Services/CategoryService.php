@@ -163,27 +163,26 @@ class CategoryService extends StatusHandlerService
         return $data;
     }
 
-
-    public function activeById(int $id): void
+    public function active(object $category): void
     {
-        $this->activeData(Category::findOrFail($id));
-
+        $category->update(['is_active'=>true]);
     }
 
-    public function inactiveById(int $id): void
+    public function inactive(object $category): void
     {
-        $this->inactiveData(Category::findOrFail($id));
+        $category->update(['is_active'=>false]);
     }
 
 
-
-    public function destroy($categoryId): void
+    public function destroy(object $category): void
     {
-        $category = Category::findOrFail($categoryId);
+
         $this->previousImageDelete(ImageDirectory::CATEGORY->value.'small/'.$category->image);
         $this->previousImageDelete(ImageDirectory::CATEGORY->value.'medium/'.$category->image);
+
         $category->delete();
     }
+
 
     public function bulkActionByTypeAndIds(string $type, array $ids)
     {

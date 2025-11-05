@@ -14,8 +14,8 @@
 
                 <form method="post" id="updateForm" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="category_id" id="category_id">
-                    <input type="hidden" name="category_translation_id" id="category_translation_id">
+                    <input type="hidden" name="category_id" id="modelId">
+                    <input type="hidden" name="_method" value="PUT">
 
                     <div class="row">
                         <div class="col-md-6 form-group">
@@ -34,9 +34,16 @@
                         </div>
 
 
-                        <div class="col-md-6 form-group mt-3">
+                        {{-- <div class="col-md-6 form-group mt-3">
                             <label for="exampleFormControlFile1">{{__('file.Insert Image')}}</label>
                             <input type="file" class="form-control-file" name="image" id="exampleFormControlFile1">
+                        </div> --}}
+                        <div class="col-md-6 form-group mt-3">
+                            <label for="imageFile">{{__('file.Insert Image')}}</label>
+                            <input type="file" id="imageInputEdit" accept="image/*" class="form-control-file" name="image">
+
+                            <!-- ✅ Image Preview -->
+                            <img id="previewImageEdit" src="" alt="" class="mt-2" style="width:150px; height: 150px; display:none; border:1px solid #ddd; padding:5px;">
                         </div>
 
                         <div class="col-md-6 form-group mt-3">
