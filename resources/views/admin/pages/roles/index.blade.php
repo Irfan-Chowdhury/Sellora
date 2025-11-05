@@ -62,14 +62,17 @@
 
 
     <script type="text/javascript">
+
         const indexURL = "{{ route('admin.roles.index') }}";
         const storeURL = "{{ route('admin.roles.store') }}";
         const editURL = "{{ route('admin.roles.edit', ':id') }}";
         let updateURL = "{{ route('admin.roles.update', ':id') }}";
-        const activeURL = "{{ route('admin.roles.active') }}";
-        const inactiveURL = "{{ route('admin.roles.inactive') }}";
-        const deleteURL = "{{ route('admin.roles.destroy', ':id') }}";
+        let deleteURL = "{{ route('admin.roles.destroy', ':id') }}";
+        let activeURL = "{{ route('admin.roles.active', ':id') }}";
+        let inactiveURL = "{{ route('admin.roles.inactive', ':id') }}";
         const bulkActionURL = "{{ route('admin.roles.bulk_action') }}";
+
+
 
 
 
@@ -82,6 +85,14 @@
 
 
             $(document).ready(function() {
+
+                $(document).ready(function() {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                });
 
 
                 $("#dataListTable").DataTable({

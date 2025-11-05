@@ -13,7 +13,7 @@
                 <div class="container-fluid"><span id="errorMessage"></span></div>
 
 
-                <form method="post" id="submitForm" action="{{route('admin.category.store')}}" enctype="multipart/form-data">
+                <form method="post" id="submitForm" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row">
@@ -32,9 +32,17 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6 form-group mt-3">
+                        {{-- <div class="col-md-6 form-group mt-3">
                             <label for="exampleFormControlFile1">{{__('file.Insert Image')}}</label>
                             <input type="file" class="form-control-file" name="image" id="exampleFormControlFile1">
+                        </div> --}}
+
+                        <div class="col-md-6 form-group mt-3">
+                            <label for="imageFile">{{__('file.Insert Image')}}</label>
+                            <input type="file" id="imageInputCreate" accept="image/*" class="form-control-file" name="image">
+
+                            <!-- ✅ Image Preview -->
+                            <img id="previewImage" src="" alt="" class="mt-2" style="width:150px; height: 150px; display:none; border:1px solid #ddd; padding:5px;">
                         </div>
 
                         <div class="col-md-6 form-group mt-3">

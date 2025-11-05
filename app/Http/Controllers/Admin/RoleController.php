@@ -22,42 +22,12 @@ class RoleController extends Controller {
         $this->roleService = $roleService;
     }
 
-    public function dataTable($roles)
-    {
-        return datatables()->of($roles)
-            ->setRowId(function ($role) {
-                return $role->id;
-            })
-            ->addColumn('name', function ($data){
-                return ucfirst ($data->name);
-            })
-            ->addColumn('action', function ($row){
-                $actionBtn = "";
-                $actionBtn .= '<a class="show btn btn-primary btn-sm mr-1" href="'.route('admin.roles.permission',$row->id).'">' . trans('file.Permission') . '</a>';
-
-                $actionBtn .= '<button type="button" title="Edit" class="edit btn btn-info btn-sm" title="Edit" data-id="'.$row->id.'"><i class="dripicons-pencil"></i></button>
-                                &nbsp; ';
-
-                if ($row->is_active==1) {
-                    $actionBtn .= '<button type="button" title="Inactive" class="inactive btn btn-warning btn-sm" data-id="'.$row->id.'"><i class="fa fa-thumbs-down"></i></button>';
-                }else {
-                    $actionBtn .= '<button type="button" title="Active" class="active btn btn-success btn-sm" data-id="'.$row->id.'"><i class="fa fa-thumbs-up"></i></button>';
-                }
-                $actionBtn .= '<button type="button" title="Delete" class="delete btn btn-danger btn-sm ml-2" title="Delete" data-id="'.$row->id.'"><i class="dripicons-trash"></i></button>
-                &nbsp; ';
-
-                return $actionBtn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
-
 	public function index()
 	{
         $roles =  $this->roleService->getAllRoles();
 
         if (request()->ajax()) {
-            return $this->dataTable($roles);
+            return $this->roleService->dataTable($roles);
         }
 
         return view('admin.pages.roles.index');
@@ -101,11 +71,39 @@ class RoleController extends Controller {
         }
     }
 
-    public function active(Request $request)
+    // public function active(Request $request)
+    // {
+    //     try {
+
+    //         $this->roleService->activeById((int)$request->id);
+
+    //         return $this->successResponse( 'Data active successfully', []);
+
+    //     } catch (Exception $e) {
+
+    //         return $this->errorResponse($e->getMessage());
+    //     }
+    // }
+
+    // public function inactive(Request $request)
+    // {
+    //     try {
+
+    //         $this->roleService->inactiveById((int)$request->id);
+
+    //         return $this->successResponse( 'Data inactive successfully', []);
+
+    //     } catch (Exception $e) {
+
+    //         return $this->errorResponse($e->getMessage());
+    //     }
+    // }
+
+    public function makeActive(Role $role)
     {
         try {
 
-            $this->roleService->activeById((int)$request->id);
+            $this->roleService->active($role);
 
             return $this->successResponse( 'Data active successfully', []);
 
@@ -115,11 +113,11 @@ class RoleController extends Controller {
         }
     }
 
-    public function inactive(Request $request)
+    public function makeInactive(Role $role)
     {
         try {
 
-            $this->roleService->inactiveById((int)$request->id);
+            $this->roleService->inactive($role);
 
             return $this->successResponse( 'Data inactive successfully', []);
 
@@ -129,11 +127,11 @@ class RoleController extends Controller {
         }
     }
 
-    public function destroy(Request $request)
+    public function destroy(Role $role)
     {
         try {
 
-            $this->roleService->destroy((int) $request->id);
+            $this->roleService->destroy($role);
 
             return $this->successResponse( 'Data Deleted successfully', []);
 

@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use Exception;
@@ -56,7 +58,7 @@ class CategoryController extends Controller
         return response()->json(['category'=> $category]);
     }
 
-    public function update(CategoryUpdateRequest $request)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
         try {
 
@@ -70,11 +72,12 @@ class CategoryController extends Controller
         }
     }
 
-    public function active(Request $request)
+
+    public function makeActive(Category $category)
     {
         try {
 
-            $this->categoryService->activeById((int)$request->id);
+            $this->categoryService->active($category);
 
             return $this->successResponse( 'Data active successfully', []);
 
@@ -84,13 +87,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function inactive(Request $request)
+    public function makeInactive(Category $category)
     {
         try {
 
-            $this->categoryService->inactiveById((int)$request->id);
+            $this->categoryService->inactive($category);
 
-            return $this->successResponse( 'Data Inactive successfully', []);
+            return $this->successResponse( 'Data inactive successfully', []);
 
         } catch (Exception $e) {
 
@@ -98,11 +101,12 @@ class CategoryController extends Controller
         }
     }
 
-    public function delete(Request $request)
+
+    public function destroy(Category $category)
     {
         try {
 
-            $this->categoryService->destroy((int) $request->id);
+            $this->categoryService->destroy($category);
 
             return $this->successResponse( 'Data Deleted successfully', []);
 

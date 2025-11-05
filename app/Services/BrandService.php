@@ -34,11 +34,10 @@ class BrandService extends StatusHandlerService
                 ];
             });
 
-
         return json_decode(json_encode($brands), FALSE);
     }
 
-    public function dataTable(object $brands)
+    public function dataTable(array $brands)
     {
         return datatables()->of($brands)
             ->setRowId(function ($brand) {
