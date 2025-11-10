@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\TaxController;
+use App\Http\Controllers\Admin\UnitController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,4 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'auth', 'as' => 'admin.'], func
 
     Route::get('/taxes/bulk_action',[TaxController::class,'bulkAction'])->name('taxes.bulk_action');
     Route::resourceWithStatus('taxes', TaxController::class);
+
+    Route::get('/units/bulk_action',[UnitController::class,'bulkAction'])->name('units.bulk_action');
+    Route::resourceWithStatus('units', UnitController::class);
 });
